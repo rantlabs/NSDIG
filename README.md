@@ -1,1 +1,49 @@
 # NSDDIG
+
+`nsdig` scans text streams for IPv4 addresses, performs reverse DNS lookups, and prefixes each line with the resolved hostname (or `NONAME` when no PTR record exists). The tool is optimized for large router dumps and supports both streaming stdout and buffered file outputs.
+
+## Build
+
+```bash
+go build -o nsdig .
+```
+
+Use Go 1.21 or newer. The command above emits an executable named `nsdig` in the repository root.
+
+## Usage
+
+```bash
+./nsdig -file INPUT.txt             # Read from a file
+./nsdig -ip 8.8.8.8                 # Single address
+cat INPUT.txt | ./nsdig             # Pipe/STDIN
+./nsdig < INPUT.txt                 # File redirect / STDIN
+./nsdig -file INPUT.txt -o out.txt  # Buffered write to a file (no streaming)
+./nsdig -file INPUT.txt -workers 32 # Custom worker pool size
+```
+
+If no input source is provided (flag, pipe, or redirect), the program prints the help text.
+
+## Sample Input & Output
+
+Input text file:
+```text
+Edge01 | log | Internet  8.8.8.8    ...
+Edge02 | log | Internet  1.1.1.1    ...
+```
+
+Output STDOUT:
+```text
+dns.google Edge01 | log | Internet  8.8.8.8    ...
+one.one.one.one Edge02 | log | Internet  1.1.1.1    ...
+```
+
+When a lookup fails:
+```text
+NONAME Edge03 | log | Internet  203.0.113.10 ...
+```
+
+## Notes
+
+- STDOUT mode streams each line as soon as its lookup completes; `-o` defers writing until the entire file is processed.
+- Hostnames are resolved with Go’s `net.LookupAddr`; if a PTR record contains characters Go rejects, `nsdig` falls back to parsing the system `nslookup` output.
+- Provide your own public data for demos; the repo’s `*_example.txt` files are for in-house regression tests.
