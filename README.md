@@ -1,4 +1,4 @@
-# NSDDIG
+# NSDIG
 
 `nsdig` scans text streams for IPv4 addresses, performs reverse DNS lookups, and prefixes each line with the resolved hostname (or `NONAME` when no PTR record exists). The tool is optimized for large router dumps and supports both streaming stdout and buffered file outputs.
 
