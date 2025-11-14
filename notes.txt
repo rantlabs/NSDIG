@@ -1,0 +1,12 @@
+Use the following commands to compile binaries for different operating systems.
+The binary name after the -o (output) flag can be name you prefer.
+
+GOOS=windows GOARCH=386 go build -o nsdig_win32.exe .
+GOOS=windows GOARCH=amd64 go build -o nsdig_win64.exe .
+GOOS=linux GOARCH=386 go build -o nsdig_linux32 .
+GOOS=linux GOARCH=amd64 go build -o nsdig_linux64 .
+GOOS=darwin GOARCH=amd64 go build -o nsdig_mac .
+GOOS=linux GOARCH=arm GOARM=6 go build -o nsdig_rpi_armv6 .
+GOOS=linux GOARCH=arm GOARM=7 go build -o nsdig_rpi_armv7 .
+GOOS=linux GOARCH=arm64 go build -o nsdig_rpi_arm64 .
+GOOS=darwin GOARCH=arm64 go build -o nsdig_mac_arm64 .
