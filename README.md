@@ -1,6 +1,6 @@
 # NSDIG
 
-`nsdig` scans text streams for IPv4 addresses, performs reverse DNS lookups, and prefixes each line with the resolved hostname (or `NONAME` when no PTR record exists). The tool is optimized for large router dumps and supports both streaming stdout and buffered file outputs.
+`nsdig` scans text streams for IPv4 addresses, performs DNS lookups, and prefixes each line with the resolved hostname (or `NONAME` when no record exists). The tool is optimized for large files and supports both streaming stdout and buffered file outputs.
 
 ## Build
 
@@ -78,4 +78,3 @@ GOOS=darwin GOARCH=arm64 go build -o nsdig_mac_arm64 .
 
 - STDOUT mode streams each line as soon as its lookup completes; `-o` defers writing until the entire file is processed.
 - Hostnames are resolved with Go’s `net.LookupAddr`; if a PTR record contains characters Go rejects, `nsdig` falls back to parsing the system `nslookup` output.
-- Provide your own public data for demos; the repo’s `*_example.txt` files are for in-house regression tests.
